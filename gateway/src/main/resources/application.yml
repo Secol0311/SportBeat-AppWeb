@@ -1,0 +1,40 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: gateway
+  # Configuración de las rutas del API Gateway
+  cloud:
+    gateway:
+      routes:
+        # Ruta hacia el servicio de autenticación
+        - id: auth-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/auth/**
+        # Ruta hacia el servicio de ligas
+        - id: liga-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/ligas/**
+        # Ruta hacia el servicio de equipos y jugadores
+        - id: equipo-jugador-service
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/equipos/**, /api/jugadores/**
+        # Ruta hacia el servicio de partidos
+        - id: partido-service
+          uri: http://localhost:8084
+          predicates:
+            - Path=/api/partidos/**
+        # Ruta hacia el servicio de notificaciones
+        - id: notificacion-service
+          uri: http://localhost:8085
+          predicates:
+            - Path=/api/notificaciones/**
+
+# Configuración personalizada para JWT
+jwt:
+  secret: miClaveSecretaParaJWT12345678901234567890 # ¡CAMBIAR EN PRODUCCIÓN!
+  expiration: 86400000 # 24 horas en milisegundos

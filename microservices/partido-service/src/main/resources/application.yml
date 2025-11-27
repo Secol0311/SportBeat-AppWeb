@@ -1,0 +1,14 @@
+server:
+  port: 8083 # Puerto único para este servicio
+
+spring:
+  application:
+    name: partido-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/partidos_db # Apunta a la BD de partidos
+    username: root
+    password: sergioc
+  jpa:
+    hibernate:
+      ddl-auto: update # Sincroniza las tablas con tus entidades
+    show-sql: true

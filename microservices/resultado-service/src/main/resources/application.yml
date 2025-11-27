@@ -1,0 +1,14 @@
+server:
+  port: 8084 # Puerto único para este servicio
+
+spring:
+  application:
+    name: resultados-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/resultados_db # Apunta a la BD de resultados
+    username: root
+    password: sergioc
+  jpa:
+    hibernate:
+      ddl-auto: update # Sincroniza las tablas con tus entidades
+    show-sql: true

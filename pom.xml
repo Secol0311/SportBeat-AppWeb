@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+    <!-- 1. Padre del Proyecto: Hereda toda la configuración de Spring Boot -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.5</version> <!-- Versión estable y reciente -->
+        <relativePath/> <!-- Busca el padre en los repositorios de Maven -->
+    </parent>
+    
+    <!-- 2. Identificación de tu Proyecto General -->
+    <groupId>com.sportbeat</groupId>
+    <artifactId>gestion-ligas-deportivas</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging> <!-- ¡MUY IMPORTANTE! Indica que es un proyecto agregador, no genera un .jar -->
+    <name>gestion-ligas-deportivas</name>
+    <description>Gestión de Ligas Deportivas Locales - Proyecto Monorepo</description>
+
+    <!-- 3. Propiedades Comunes para TODOS los módulos -->
+    <properties>
+        <java.version>17</java.version>
+        <spring-cloud.version>2023.0.1</spring-cloud.version>
+    </properties>
+
+    <!-- 4. Declaración de Módulos (La parte más importante) -->
+    <!-- Aquí le dices a Maven qué carpetas son partes de este proyecto -->
+    <modules>
+        <!-- El Gateway, que actuará como frontend y orquestador -->
+        <module>gateway</module>
+        
+        <!-- Los microservicios, siguiendo la estructura de la imagen -->
+        <module>microservices/auth-service</module>
+        <module>microservices/resultado-service</module>      <!-- De 'player-service' -->
+        <module>microservices/equipo-jugador-service</module>      <!-- De 'team-service' -->
+        <module>microservices/partido-service</module>     <!-- De 'match-service' -->
+        <module>microservices/notificacion-service</module> <!-- De 'notification-service' -->
+    </modules>
+
+    <!-- 5. Gestión de Dependencias (Best Practice) -->
+    <!-- Centraliza las versiones de librerías complejas como Spring Cloud -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>

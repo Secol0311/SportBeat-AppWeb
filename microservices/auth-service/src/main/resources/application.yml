@@ -1,0 +1,15 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: auth-service
+
+# Nueva propiedad para la URL del servicio de usuarios
+usuario-equipo:
+  service:
+    url: http://localhost:8082
+
+jwt:
+  secret: miClaveSecretaParaJWT12345678901234567890
+  expiration: 86400000

@@ -1,0 +1,39 @@
+﻿# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# IDE
+.idea/
+*.iml
+*.iws
+.vscode/
+.classpath
+.project
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Spring Boot
+spring-boot-devtools.properties
+
+# Environment
+.env
+
+# Tailwind
+sportbeat-web/src/main/resources/static/css/styles.css
+
+# Docker
+*.jar
