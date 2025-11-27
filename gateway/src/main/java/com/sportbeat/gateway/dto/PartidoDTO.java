@@ -1,17 +1,20 @@
 package com.sportbeat.gateway.dto;
-
+import com.sportbeat.gateway.model.EstadoPartido;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.UUID;
 
 @Data
+@AllArgsConstructor
 public class PartidoDTO {
-    private Long id;
-    private Long idLiga;
-    private String nombreEquipoLocal;
-    private String nombreEquipoVisitante;
-    private LocalDateTime fechaHora;
-    private String lugar;
-    private Integer golesLocal;
-    private Integer golesVisitante;
-    private String estado; // ej. "PROGRAMADO", "JUGADO", "CANCELADO"
+    private UUID id;
+    private UUID ligaId;
+    private UUID equipoLocalId;
+    private UUID equipoVisitanteId;
+    private LocalDate fecha;
+    private LocalTime hora;
+    private String venue;
+    private EstadoPartido estado;
 }

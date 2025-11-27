@@ -4,8 +4,6 @@ import com.sportbeat.equipo_jugador_service.dto.LigaRequest;
 import com.sportbeat.equipo_jugador_service.model.Liga;
 import com.sportbeat.equipo_jugador_service.service.LigaService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,32 +14,44 @@ import java.util.UUID;
 @RequestMapping("/api/ligas")
 public class LigaController {
 
-    @Autowired
-    private LigaService ligaService;
+    private final LigaService ligaService;
+
+    public LigaController(LigaService ligaService) {
+        this.ligaService = ligaService;
+    }
 
     @PostMapping
     public ResponseEntity<Liga> crearLiga(@Valid @RequestBody LigaRequest request) {
-        return new ResponseEntity<>(ligaService.crearLiga(request), HttpStatus.CREATED);
+        Liga liga = ligaService.crearLiga(request);
+        return ResponseEntity.status(201).body(liga);
     }
 
     @GetMapping
-    public List<Liga> obtenerTodas() {
-        return ligaService.obtenerTodas();
+    public ResponseEntity<List<Liga>> obtenerTodas() {
+        return ResponseEntity.ok(ligaService.obtenerTodas());
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<Long> countLigas() {
+        return ResponseEntity.ok(ligaService.contarLigas());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Liga> obtenerPorId(@PathVariable UUID id) {
         Liga liga = ligaService.obtenerPorId(id);
-        return liga != null ? ResponseEntity.ok(liga) : ResponseEntity.notFound().build();
+        return (liga != null) ? ResponseEntity.ok(liga) : ResponseEntity.notFound().build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Liga> actualizarLiga(@PathVariable UUID id, @Valid @RequestBody LigaRequest request) {
-        try {
-            return ResponseEntity.ok(ligaService.actualizarLiga(id, request));
-        } catch (RuntimeException e) {
+    public ResponseEntity<Liga> actualizarLiga(
+            @PathVariable UUID id,
+            @Valid @RequestBody LigaRequest request
+    ) {
+        Liga ligaActualizada = ligaService.actualizarLiga(id, request);
+        if (ligaActualizada == null) {
             return ResponseEntity.notFound().build();
         }
+        return ResponseEntity.ok(ligaActualizada);
     }
 
     @DeleteMapping("/{id}")

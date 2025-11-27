@@ -35,6 +35,16 @@ public class EquipoController {
         return equipo != null ? ResponseEntity.ok(equipo) : ResponseEntity.notFound().build();
     }
 
+    @GetMapping("/count")
+    public Long countEquipos() {
+        return equipoService.contarEquipos();
+    }
+
+    @GetMapping("/coach/{coachId}")
+    public List<Equipo> getByCoach(@PathVariable UUID coachId) {
+        return equipoService.obtenerPorCoachId(coachId);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Equipo> actualizarEquipo(@PathVariable UUID id, @Valid @RequestBody EquipoRequest request) {
         try {

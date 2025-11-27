@@ -18,9 +18,10 @@ public class EquipoService {
     private EquipoRepository equipoRepository;
 
     @Autowired
-    private UsuarioRepository usuarioRepository;  // Para buscar coach
+    private UsuarioRepository usuarioRepository;
 
     public Equipo crearEquipo(EquipoRequest request) {
+
         Usuario coach = usuarioRepository.findById(request.getCoachId())
                 .orElseThrow(() -> new RuntimeException("Coach no encontrado"));
 
@@ -29,7 +30,7 @@ public class EquipoService {
                 .district(request.getDistrict())
                 .department(request.getDepartment())
                 .leagueId(request.getLeagueId())
-                .coach(coach)  // Asignamos el objeto Usuario
+                .coach(coach)
                 .foundedYear(request.getFoundedYear())
                 .build();
 
@@ -44,15 +45,20 @@ public class EquipoService {
         return equipoRepository.findById(id).orElse(null);
     }
 
+    public long contarEquipos() {
+        return equipoRepository.count();
+    }
+
     public List<Equipo> obtenerPorLeagueId(UUID leagueId) {
         return equipoRepository.findByLeagueId(leagueId);
     }
 
     public List<Equipo> obtenerPorCoachId(UUID coachId) {
-        return equipoRepository.findByCoach_Id(coachId); // ajustado al nuevo repo
+        return equipoRepository.findByCoach_Id(coachId);
     }
 
     public Equipo actualizarEquipo(UUID id, EquipoRequest request) {
+
         Usuario coach = usuarioRepository.findById(request.getCoachId())
                 .orElseThrow(() -> new RuntimeException("Coach no encontrado"));
 
@@ -61,7 +67,7 @@ public class EquipoService {
             equipo.setDistrict(request.getDistrict());
             equipo.setDepartment(request.getDepartment());
             equipo.setLeagueId(request.getLeagueId());
-            equipo.setCoach(coach);  // Asignamos el objeto Usuario
+            equipo.setCoach(coach);
             equipo.setFoundedYear(request.getFoundedYear());
             return equipoRepository.save(equipo);
         }).orElseThrow(() -> new RuntimeException("Equipo no encontrado"));

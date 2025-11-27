@@ -55,6 +55,9 @@ public class LigaService {
     public Liga obtenerPorLeagueCode(String leagueCode) {
         return ligaRepository.findByLeagueCode(leagueCode).orElse(null);
     }
+    public long contarLigas() {
+    return ligaRepository.count();
+}
 
     public Liga actualizarLiga(UUID id, LigaRequest request) {
         Usuario admin = usuarioRepository.findById(request.getAdminId())

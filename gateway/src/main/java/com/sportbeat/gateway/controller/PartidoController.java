@@ -2,6 +2,9 @@ package com.sportbeat.gateway.controller;
 
 import com.sportbeat.gateway.dto.PartidoDTO;
 import com.sportbeat.gateway.service.PartidoService;
+
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +27,7 @@ public class PartidoController {
     }
 
     @GetMapping("/ligas/{idLiga}/calendario")
-    public String calendarioPorLigaPage(@PathVariable Long idLiga, Model model) {
+    public String calendarioPorLigaPage(@PathVariable UUID idLiga, Model model) {
         partidoService.getCalendarioByLiga(idLiga)
                 .collectList()
                 .doOnNext(partidos -> model.addAttribute("partidos", partidos))
@@ -36,7 +39,7 @@ public class PartidoController {
     }
 
     @GetMapping("/partidos/detalle/{id}")
-    public String detallePartidoPage(@PathVariable Long id, Model model) {
+    public String detallePartidoPage(@PathVariable UUID id, Model model) {
         PartidoDTO partido = partidoService.getDetallePartido(id).block();
         if (partido != null) {
             model.addAttribute("partido", partido);

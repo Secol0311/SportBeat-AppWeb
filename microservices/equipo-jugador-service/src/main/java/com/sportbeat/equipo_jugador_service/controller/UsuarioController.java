@@ -15,7 +15,8 @@ import java.util.UUID;
 @RequestMapping("/api/usuarios")
 public class UsuarioController {
 
-    @Autowired private UsuarioService usuarioService;
+    @Autowired
+    private UsuarioService usuarioService;
 
     @PostMapping
     public ResponseEntity<Usuario> crearUsuario(@Valid @RequestBody UsuarioRequest request) {
@@ -33,11 +34,15 @@ public class UsuarioController {
         return usuario != null ? ResponseEntity.ok(usuario) : ResponseEntity.notFound().build();
     }
 
-    // Endpoint PÚBLICO para que auth-service pueda validar usuarios
     @GetMapping("/public/{username}")
     public ResponseEntity<Usuario> obtenerPorUsername(@PathVariable String username) {
         Usuario usuario = usuarioService.findByUsername(username);
         return usuario != null ? ResponseEntity.ok(usuario) : ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/count")
+    public Long countUsuarios() {
+        return usuarioService.contarUsuarios();
     }
 
     @PutMapping("/{id}")

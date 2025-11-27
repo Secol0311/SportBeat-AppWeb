@@ -4,8 +4,6 @@ import com.sportbeat.equipo_jugador_service.dto.JugadorRequest;
 import com.sportbeat.equipo_jugador_service.model.Jugador;
 import com.sportbeat.equipo_jugador_service.service.JugadorService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,32 +14,42 @@ import java.util.UUID;
 @RequestMapping("/api/jugadores")
 public class JugadorController {
 
-    @Autowired
-    private JugadorService jugadorService;
+    private final JugadorService jugadorService;
+
+    public JugadorController(JugadorService jugadorService) {
+        this.jugadorService = jugadorService;
+    }
 
     @PostMapping
     public ResponseEntity<Jugador> crearJugador(@Valid @RequestBody JugadorRequest request) {
-        return new ResponseEntity<>(jugadorService.crearJugador(request), HttpStatus.CREATED);
+        Jugador jugador = jugadorService.crearJugador(request);
+        return ResponseEntity.status(201).body(jugador);
     }
 
     @GetMapping
-    public List<Jugador> obtenerTodos() {
-        return jugadorService.obtenerTodos();
+    public ResponseEntity<List<Jugador>> obtenerTodos() {
+        return ResponseEntity.ok(jugadorService.obtenerTodos());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Jugador> obtenerPorId(@PathVariable UUID id) {
         Jugador jugador = jugadorService.obtenerPorId(id);
-        return jugador != null ? ResponseEntity.ok(jugador) : ResponseEntity.notFound().build();
+        if (jugador == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(jugador);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Jugador> actualizarJugador(@PathVariable UUID id, @Valid @RequestBody JugadorRequest request) {
-        try {
-            return ResponseEntity.ok(jugadorService.actualizarJugador(id, request));
-        } catch (RuntimeException e) {
+    public ResponseEntity<Jugador> actualizarJugador(
+            @PathVariable UUID id,
+            @Valid @RequestBody JugadorRequest request
+    ) {
+        Jugador jugadorActualizado = jugadorService.actualizarJugador(id, request);
+        if (jugadorActualizado == null) {
             return ResponseEntity.notFound().build();
         }
+        return ResponseEntity.ok(jugadorActualizado);
     }
 
     @DeleteMapping("/{id}")

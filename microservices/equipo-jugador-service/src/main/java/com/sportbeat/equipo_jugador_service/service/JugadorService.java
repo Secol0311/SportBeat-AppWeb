@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-
 @Service
 public class JugadorService {
 
@@ -27,12 +26,13 @@ public class JugadorService {
     private EquipoRepository equipoRepository;
 
     public Jugador crearJugador(JugadorRequest request) {
-        final Usuario usuario = usuarioRepository.findById(request.getUsuarioId())
+
+        Usuario usuario = usuarioRepository.findById(request.getUsuarioId())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        final Equipo team = (request.getTeamId() != null) 
+        Equipo team = (request.getTeamId() != null)
                 ? equipoRepository.findById(request.getTeamId())
-                    .orElseThrow(() -> new RuntimeException("Equipo no encontrado"))
+                .orElseThrow(() -> new RuntimeException("Equipo no encontrado"))
                 : null;
 
         Jugador jugador = Jugador.builder()
@@ -64,12 +64,13 @@ public class JugadorService {
     }
 
     public Jugador actualizarJugador(UUID id, JugadorRequest request) {
-        final Usuario usuario = usuarioRepository.findById(request.getUsuarioId())
+
+        Usuario usuario = usuarioRepository.findById(request.getUsuarioId())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        final Equipo team = (request.getTeamId() != null) 
+        Equipo team = (request.getTeamId() != null)
                 ? equipoRepository.findById(request.getTeamId())
-                    .orElseThrow(() -> new RuntimeException("Equipo no encontrado"))
+                .orElseThrow(() -> new RuntimeException("Equipo no encontrado"))
                 : null;
 
         return jugadorRepository.findById(id).map(jugador -> {
