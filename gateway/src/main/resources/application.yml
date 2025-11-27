@@ -4,37 +4,46 @@ server:
 spring:
   application:
     name: gateway
-  # Configuración de las rutas del API Gateway
   cloud:
     gateway:
       routes:
-        # Ruta hacia el servicio de autenticación
+        # --- Rutas hacia los microservicios ---
         - id: auth-service
           uri: http://localhost:8081
           predicates:
             - Path=/api/auth/**
-        # Ruta hacia el servicio de ligas
-        - id: liga-service
+
+        - id: equipo-jugador-service
           uri: http://localhost:8082
           predicates:
-            - Path=/api/ligas/**
-        # Ruta hacia el servicio de equipos y jugadores
-        - id: equipo-jugador-service
+            - Path=/api/usuarios/**, /api/ligas/**, /api/equipos/**, /api/jugadores/**
+
+        - id: partido-service
           uri: http://localhost:8083
           predicates:
-            - Path=/api/equipos/**, /api/jugadores/**
-        # Ruta hacia el servicio de partidos
-        - id: partido-service
+            - Path=/api/partidos/**
+
+        - id: resultados-service
           uri: http://localhost:8084
           predicates:
-            - Path=/api/partidos/**
-        # Ruta hacia el servicio de notificaciones
-        - id: notificacion-service
+            - Path=/api/resultados/**, /api/estadisticas/**
+
+        - id: notificaciones-service
           uri: http://localhost:8085
           predicates:
-            - Path=/api/notificaciones/**
+            - Path=/api/notifications/**
 
-# Configuración personalizada para JWT
+# --- URLs directas para los clientes WebClient del Gateway ---
+# Esto permite al gateway hacer llamadas internas sin pasar por el propio router
+urls:
+  servicios:
+    auth: http://localhost:8081
+    equipo-jugador: http://localhost:8082
+    partido: http://localhost:8083
+    resultado: http://localhost:8084
+    notificacion: http://localhost:8085
+
+# --- Configuración de JWT (Debe ser idéntica a la del auth-service) ---
 jwt:
-  secret: miClaveSecretaParaJWT12345678901234567890 # ¡CAMBIAR EN PRODUCCIÓN!
-  expiration: 86400000 # 24 horas en milisegundos
+  secret: miClaveSecretaParaJWT12345678901234567890
+  expiration: 86400000 # 24 horas

@@ -1,14 +1,18 @@
 server:
-  port: 8082 # Puerto para este servicio
+  port: 8082 # Puerto único para este servicio
 
 spring:
   application:
-    name: usuario-equipo-service
+    name: equipo-jugador-service
   datasource:
-    url: jdbc:mysql://localhost:3306/equipos_db # Apunta a tu nueva BD
+    url: jdbc:mysql://localhost:3306/equipos_db
     username: root
     password: sergioc
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: update # Sincroniza las tablas con tus entidades
     show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
