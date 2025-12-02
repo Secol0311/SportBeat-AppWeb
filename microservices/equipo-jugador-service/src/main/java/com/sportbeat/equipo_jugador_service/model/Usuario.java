@@ -10,7 +10,9 @@ import java.time.LocalDateTime;
 @Table(name = "usuarios")
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
 public class Usuario {
-    @Id private UUID id;
+    @Id
+    @Column(columnDefinition = "BINARY(16)")
+    private UUID id;
     @Column(unique = true, nullable = false) private String username;
     @Column(name = "password_hash", nullable = false) private String passwordHash;
     @Column(unique = true, nullable = false) private String email;

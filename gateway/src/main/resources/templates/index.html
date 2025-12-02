@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title th:text="${titulo} ?: 'SportBeat - Gestión Deportiva'">SportBeat</title>
+
+  <!-- Bootstrap + icons (CDN) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Tu CSS consolidado (mover el <style> del HTML original aquí) -->
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+
+  <!-- header fragment -->
+  <div th:replace="fragments/header :: siteHeader"></div>
+
+  <!-- Hero -->
+<section class="hero">
+  <div class="hero-content container text-center">
+    <h1>Sistema Integral de<br>Gestión Deportiva</h1>
+    <p>SportsBeat revoluciona la gestión deportiva con herramientas avanzadas para administradores, 
+      entrenadores, jugadores y fanáticos. Todo en una plataforma unificada.</p>
+    <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
+      <a href="/registro" class="btn btn-primary">Comenzar Ahora</a>
+      <a href="#" class="btn btn-outline-light">Ver Demo</a>
+    </div>
+  </div>
+</section>
+
+  <!-- Características -->
+<section class="features">
+  <div class="container">
+    <h2 class="fw-bold text-center mb-4">CARACTERÍSTICAS PRINCIPALES</h2>
+    <p class="text-secondary text-center mb-4">
+      Todo lo que necesitas para gestionar el deporte de manera profesional
+    </p>
+
+    <div class="row g-4">
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="feature-box">
+          <div class="feature-icon bg-blue">
+            <span class="text-2xl">👨‍💼</span>
+          </div>
+          <h5 class="fw-bold mb-2">Panel Administrativo</h5>
+          <p>Gestión completa de ligas, equipos y usuarios con herramientas avanzadas.</p>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="feature-box">
+          <div class="feature-icon bg-green">
+            <span class="text-2xl">🏆</span>
+          </div>
+          <h5 class="fw-bold mb-2">Panel Entrenador</h5>
+          <p>Herramientas especializadas para la gestión de equipos y estrategias.</p>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="feature-box">
+          <div class="feature-icon bg-purple">
+            <span class="text-2xl">⚽</span>
+          </div>
+          <h5 class="fw-bold mb-2">Panel Jugador</h5>
+          <p>Seguimiento de estadísticas personales y progreso deportivo.</p>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="feature-box">
+          <div class="feature-icon bg-orange">
+            <span class="text-2xl">📊</span>
+          </div>
+          <h5 class="fw-bold mb-2">Reportes y Análisis</h5>
+          <p>Estadísticas detalladas y reportes en tiempo real.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- Deportes -->
+<section class="sports">
+  <div class="container sports-content">
+    <h2 class="fw-bold text-center mb-5">DEPORTES SOPORTADOS</h2>
+    <div class="row g-4">
+      <div class="col-12 col-md-4">
+        <div class="sport-card sport-futbol text-center">
+          <div class="sport-icon mb-3">⚽</div>
+          <h5 class="fw-bold mb-2">Fútbol</h5>
+          <p>Gestión completa de ligas de fútbol con estadísticas avanzadas.</p>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="sport-card sport-basquet text-center">
+          <div class="sport-icon mb-3">🏀</div>
+          <h5 class="fw-bold mb-2">Básquetbol</h5>
+          <p>Herramientas especializadas para equipos de básquetbol.</p>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="sport-card sport-voleibol text-center">
+          <div class="sport-icon mb-3">🏐</div>
+          <h5 class="fw-bold mb-2">Vóleibol</h5>
+          <p>Sistema completo para la gestión de equipos de voleibol.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- Comunidad -->
+<section class="register-section py-5">
+  <div class="container">
+    <h2 class="fw-bold text-center mb-2">Únete a Nuestra Comunidad</h2>
+    <h5 class="fw-bold text-center mb-5">Elige tu rol y accede a Características Personalizadas</h5>
+    <div class="row justify-content-center g-4">
+
+      <!-- Card Jugador -->
+      <div class="col-md-5 d-flex">
+        <div class="register-card text-center p-4 flex-fill d-flex flex-column justify-content-between">
+          <div>
+            <h5 class="fw-bold mb-2">Jugador</h5>
+            <p class="text-muted mb-3">Accede a tus estadísticas personales y programa de entrenamientos</p>
+            <ul class="text-start small mb-4">
+              <li>Estadísticas personales</li>
+              <li>Calendario de entrenamientos</li>
+              <li>Comunicación con entrenadores</li>
+              <li>Historial de partidos</li>
+            </ul>
+          </div>
+          <a href="/registro-jugador" class="btn btn-register mt-auto">Registrarse</a>
+        </div>
+      </div>
+
+      <!-- Card Equipo -->
+      <div class="col-md-5 d-flex">
+        <div class="register-card text-center p-4 flex-fill d-flex flex-column justify-content-between">
+          <div>
+            <h5 class="fw-bold mb-2">Equipo</h5>
+            <p class="text-muted mb-3">Gestiona tu equipo, programa entrenamientos y registra resultados</p>
+            <ul class="text-start small mb-4">
+              <li>Gestión de planteles</li>
+              <li>Programación de entrenamientos</li>
+              <li>Registro de resultados</li>
+              <li>Reportes de rendimiento</li>
+            </ul>
+          </div>
+          <a href="/registro-equipo" class="btn btn-register mt-auto">Registrarse</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+  <!-- CTA Final -->
+ <section class="cta">
+  <div class="container">
+    <h2>¿Listo para Revolucionar tu Gestión Deportiva?</h2>
+    <p>Únete a miles de organizaciones que ya confían en SportsBeat para la gestión de sus deportes</p>
+    <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
+      <a href="/registro" class="btn btn-primary">Registrarse Gratis</a>
+      <a href="/contacto" class="btn btn-outline-light">Contactar Ventas</a>
+    </div>
+  </div>
+</section>
+
+  <!-- footer fragment -->
+  <div th:replace="fragments/footer :: siteFooter"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

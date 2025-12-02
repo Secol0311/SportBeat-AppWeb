@@ -4,12 +4,23 @@ server:
 spring:
   application:
     name: auth-service
-
-# Nueva propiedad para la URL del servicio de usuarios
-usuario-equipo:
-  service:
-    url: http://localhost:8082
+  datasource:
+    url: jdbc:mysql://localhost:3306/equipos_db
+    username: root
+    password: sergioc
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
 
 jwt:
   secret: miClaveSecretaParaJWT12345678901234567890
   expiration: 86400000
+
+usuario-equipo:
+  service:
+    url: http://localhost:8082

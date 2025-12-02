@@ -1,268 +1,150 @@
 version: '3.8'
 
 services:
-  # ==========================================
-  # MySQL Database
-  # ==========================================
-  mysql:
-    image: mysql:8.0
-    container_name: sportbeat-mysql
+  # ============================================================
+  #  BASES DE DATOS
+  # ============================================================
+
+  db_usuarios_equipos:
+    image: mysql:8
+    container_name: db_usuarios_equipos
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: auth_db
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: usuarios_equipos_db
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
-      - mysql-data:/var/lib/mysql
-      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
-    networks:
-      - sportbeat-network
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-prootpassword"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      - ./bd/usuarios_equipo_db.sql:/docker-entrypoint-initdb.d/usuarios_equipo_db.sql
 
-  # ==========================================
-  # RabbitMQ Message Broker
-  # ==========================================
-  rabbitmq:
-    image: rabbitmq:3.12-management
-    container_name: sportbeat-rabbitmq
+  db_partidos:
+    image: mysql:8
+    container_name: db_partidos
     restart: always
-    ports:
-      - "5672:5672"   # AMQP port
-      - "15672:15672" # Management UI
     environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: partidos_db
+    ports:
+      - "3308:3306"
     volumes:
-      - rabbitmq-data:/var/lib/rabbitmq
-    networks:
-      - sportbeat-network
-    healthcheck:
-      test: ["CMD", "rabbitmq-diagnostics", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      - ./bd/partidos_db.sql:/docker-entrypoint-initdb.d/partidos_db.sql
 
-  # ==========================================
-  # Auth Service
-  # ==========================================
+  db_resultados:
+    image: mysql:8
+    container_name: db_resultados
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: resultados_db
+    ports:
+      - "3309:3306"
+    volumes:
+      - ./bd/resultados_db.sql:/docker-entrypoint-initdb.d/resultados_db.sql
+
+  db_notificaciones:
+    image: mysql:8
+    container_name: db_notificaciones
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: notificaciones_db
+    ports:
+      - "3310:3306"
+    volumes:
+      - ./bd/notificaciones_db.sql:/docker-entrypoint-initdb.d/notificaciones_db.sql
+
+  # ============================================================
+  #  MICROSERVICIOS
+  # ============================================================
+
   auth-service:
-    build:
-      context: ./microservices/auth-service
-      dockerfile: Dockerfile
+    build: ./microservices/auth-service
     container_name: auth-service
     restart: always
     ports:
       - "8081:8081"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/auth_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: rootpassword
-      SPRING_RABBITMQ_HOST: rabbitmq
+      DB_HOST: db_usuarios_equipos
+      DB_PORT: 3306
+      DB_NAME: usuarios_equipos_db
+      DB_USER: root
+      DB_PASSWORD: root
     depends_on:
-      mysql:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_healthy
-    networks:
-      - sportbeat-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+      - db_usuarios_equipos
 
-  # ==========================================
-  # Team Service
-  # ==========================================
-  team-service:
-    build:
-      context: ./microservices/team-service
-      dockerfile: Dockerfile
-    container_name: team-service
+  equipo-jugador-service:
+    build: ./microservices/equipo-jugador-service
+    container_name: equipo-jugador-service
     restart: always
     ports:
       - "8082:8082"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/team_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: rootpassword
-      SPRING_RABBITMQ_HOST: rabbitmq
+      DB_HOST: db_usuarios_equipos
+      DB_PORT: 3306
+      DB_NAME: usuarios_equipos_db
+      DB_USER: root
+      DB_PASSWORD: root
     depends_on:
-      mysql:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_healthy
-    networks:
-      - sportbeat-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8082/actuator/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+      - db_usuarios_equipos
 
-  # ==========================================
-  # Match Service
-  # ==========================================
-  match-service:
-    build:
-      context: ./microservices/match-service
-      dockerfile: Dockerfile
-    container_name: match-service
+  partido-service:
+    build: ./microservices/partido-service
+    container_name: partido-service
     restart: always
     ports:
       - "8083:8083"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/match_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: rootpassword
-      SPRING_RABBITMQ_HOST: rabbitmq
-      SERVICES_TEAM_SERVICE: http://team-service:8082
+      DB_HOST: db_partidos
+      DB_PORT: 3306
+      DB_NAME: partidos_db
+      DB_USER: root
+      DB_PASSWORD: root
     depends_on:
-      mysql:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_healthy
-      team-service:
-        condition: service_healthy
-    networks:
-      - sportbeat-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8083/actuator/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+      - db_partidos
 
-  # ==========================================
-  # Result Service
-  # ==========================================
-  result-service:
-    build:
-      context: ./microservices/result-service
-      dockerfile: Dockerfile
-    container_name: result-service
+  resultado-service:
+    build: ./microservices/resultado-service
+    container_name: resultado-service
     restart: always
     ports:
       - "8084:8084"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/result_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: rootpassword
-      SPRING_RABBITMQ_HOST: rabbitmq
-      SERVICES_MATCH_SERVICE: http://match-service:8083
-      SERVICES_TEAM_SERVICE: http://team-service:8082
+      DB_HOST: db_resultados
+      DB_PORT: 3306
+      DB_NAME: resultados_db
+      DB_USER: root
+      DB_PASSWORD: root
     depends_on:
-      mysql:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_healthy
-      match-service:
-        condition: service_healthy
-      team-service:
-        condition: service_healthy
-    networks:
-      - sportbeat-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8084/actuator/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+      - db_resultados
 
-  # ==========================================
-  # Notification Service
-  # ==========================================
-  notification-service:
-    build:
-      context: ./microservices/notification-service
-      dockerfile: Dockerfile
-    container_name: notification-service
+  notificacion-service:
+    build: ./microservices/notificacion-service
+    container_name: notificacion-service
     restart: always
     ports:
       - "8085:8085"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/notification_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: rootpassword
-      SPRING_RABBITMQ_HOST: rabbitmq
-      SPRING_MAIL_HOST: smtp.gmail.com
-      SPRING_MAIL_PORT: 587
-      SPRING_MAIL_USERNAME: ${MAIL_USERNAME}
-      SPRING_MAIL_PASSWORD: ${MAIL_PASSWORD}
+      DB_HOST: db_notificaciones
+      DB_PORT: 3306
+      DB_NAME: notificaciones_db
+      DB_USER: root
+      DB_PASSWORD: root
     depends_on:
-      mysql:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_healthy
-    networks:
-      - sportbeat-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8085/actuator/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+      - db_notificaciones
 
-  # ==========================================
-  # API Gateway
-  # ==========================================
+  # ============================================================
+  #  GATEWAY
+  # ============================================================
+
   gateway:
-    build:
-      context: ./sportbeat-gateway
-      dockerfile: Dockerfile
-    container_name: sportbeat-gateway
+    build: ./gateway
+    container_name: gateway
     restart: always
     ports:
       - "8080:8080"
-    environment:
-      SPRING_PROFILES_ACTIVE: docker
     depends_on:
-      auth-service:
-        condition: service_healthy
-      team-service:
-        condition: service_healthy
-      match-service:
-        condition: service_healthy
-      result-service:
-        condition: service_healthy
-      notification-service:
-        condition: service_healthy
-    networks:
-      - sportbeat-network
-
-  # ==========================================
-  # Web Application (Thymeleaf)
-  # ==========================================
-  web:
-    build:
-      context: ./sportbeat-web
-      dockerfile: Dockerfile
-    container_name: sportbeat-web
-    restart: always
-    ports:
-      - "8090:8090"
-    environment:
-      SERVICES_GATEWAY_URL: http://gateway:8080
-      SPRING_PROFILES_ACTIVE: docker
-    depends_on:
-      - gateway
-    networks:
-      - sportbeat-network
-
-# ==========================================
-# Networks
-# ==========================================
-networks:
-  sportbeat-network:
-    driver: bridge
-
-# ==========================================
-# Volumes
-# ==========================================
-volumes:
-  mysql-data:
-    driver: local
-  rabbitmq-data:
-    driver: local
+      - auth-service
+      - equipo-jugador-service
+      - partido-service
+      - resultado-service
+      - notificacion-service

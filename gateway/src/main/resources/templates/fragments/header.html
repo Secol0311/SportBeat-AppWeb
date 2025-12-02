@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <div th:fragment="siteHeader">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container">
+        <a th:href="@{/}" class="navbar-brand d-flex align-items-center">
+          <img th:src="@{/images/logo.png}" alt="SportBeat" width="80" class="me-2">
+          <strong>SPORTBEAT</strong>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" th:href="@{/}">Inicio</a></li>
+            <li class="nav-item"><a class="nav-link" th:href="@{/quienes-somos}">Quiénes Somos</a></li>
+            <li class="nav-item"><a class="nav-link" th:href="@{/deportes}">Deportes</a></li>
+            <li class="nav-item"><a class="nav-link" th:href="@{/contacto}">Contacto</a></li>
+
+            <!-- Si NO está autenticado mostramos botones de Login/Registro -->
+            <li class="nav-item" sec:authorize="!isAuthenticated()">
+              <a th:href="@{/login}" class="btn btn-login ms-2">Iniciar Sesión</a>
+            </li>
+            <li class="nav-item" sec:authorize="!isAuthenticated()">
+              <a th:href="@{/registro}" class="btn btn-primary ms-2">Registrarse</a>
+            </li>
+
+            <!-- Si está autenticado mostramos enlaces según rol -->
+            <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
+              <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button" data-bs-toggle="dropdown">
+                <span sec:authentication="name">Usuario</span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+                <li sec:authorize="hasRole('ADMINISTRADOR')"><a class="dropdown-item" th:href="@{/dashboard/administrador}">Panel Admin</a></li>
+                <li sec:authorize="hasRole('ENTRENADOR')"><a class="dropdown-item" th:href="@{/dashboard/entrenador}">Panel Entrenador</a></li>
+                <li sec:authorize="hasRole('JUGADOR')"><a class="dropdown-item" th:href="@{/dashboard/jugador}">Mi Panel</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" th:href="@{/logout}">Cerrar Sesión</a></li>
+              </ul>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+</html>

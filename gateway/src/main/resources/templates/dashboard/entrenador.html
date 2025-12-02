@@ -1,0 +1,51 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/header :: head}"></head>
+<body>
+<div th:insert="~{fragments/header :: header}"></div>
+
+<h1 th:text="${titulo}">Panel de Entrenador</h1>
+
+<!-- Datos del Equipo -->
+<div class="dashboard-card" th:if="${equipo}">
+    <h3>Mi Equipo: <span th:text="${equipo.name}">Nombre del Equipo</span></h3>
+</div>
+
+<!-- Lista de Jugadores -->
+<div class="dashboard-card">
+    <h3>Lista de Jugadores</h3>
+    <table class="table">
+        <thead><tr><th>Nombre</th><th>Posición</th><th>Dorsal</th></tr></thead>
+        <tbody>
+            <tr th:if="${jugadores.empty}">
+                <td colspan="3">Tu equipo no tiene jugadores asignados.</td>
+            </tr>
+            <tr th:each="jugador : ${jugadores}">
+                <!-- NOTA: Aquí faltaría obtener el nombre del jugador desde su usuario_id -->
+                <td th:text="${jugador.usuarioId}">ID Jugador</td>
+                <td th:text="${jugador.position}">Posición</td>
+                <td th:text="${jugador.jerseyNumber}">Dorsal</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Próximos Partidos del Equipo -->
+<div class="dashboard-card">
+    <h3>Próximos Partidos del Equipo</h3>
+    <table class="table">
+        <thead><tr><th>Fecha</th><th>Local vs. Visitante</th></tr></thead>
+        <tbody>
+            <tr th:if="${proximosPartidos.empty}">
+                <td colspan="2">No hay próximos partidos para tu equipo.</td>
+            </tr>
+            <tr th:each="partido : ${proximosPartidos}">
+                <td th:text="${partido.fecha}">Fecha</td>
+                <td th:text="|${partido.equipoLocalId} vs. ${partido.equipoVisitanteId}|">Partido</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:insert="~{fragments/footer :: footer}"></div>
+</body>
+</html>

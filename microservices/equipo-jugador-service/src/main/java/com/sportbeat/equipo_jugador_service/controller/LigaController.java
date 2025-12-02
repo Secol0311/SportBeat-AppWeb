@@ -53,6 +53,7 @@ public class LigaController {
         }
         return ResponseEntity.ok(ligaActualizada);
     }
+    
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarLiga(@PathVariable UUID id) {

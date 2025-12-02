@@ -34,9 +34,7 @@ public class UsuarioService {
     public List<Usuario> obtenerTodos() { return usuarioRepository.findAll(); }
     public Usuario obtenerPorId(UUID id) { return usuarioRepository.findById(id).orElse(null); }
     public Usuario findByUsername(String username) { return usuarioRepository.findByUsername(username).orElse(null); }
-    public long contarUsuarios() {
-    return usuarioRepository.count();
-}
+    public long contarUsuarios() {    return usuarioRepository.count(); }
 
     public Usuario actualizarUsuario(UUID id, UsuarioRequest request) {
         return usuarioRepository.findById(id).map(usuario -> {

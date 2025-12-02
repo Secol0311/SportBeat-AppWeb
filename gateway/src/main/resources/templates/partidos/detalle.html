@@ -1,0 +1,41 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/header :: head}"></head>
+<body>
+<div th:insert="~{fragments/header :: header}"></div>
+
+<h1 th:text="${titulo}">Detalle del Partido</h1>
+
+<div class="dashboard-card">
+    <h3>Información del Partido</h3>
+    <p><strong>Fecha:</strong> <span th:text="${partido.fecha}">Fecha</span></p>
+    <p><strong>Hora:</strong> <span th:text="${partido.hora}">Hora</span></p>
+    <p><strong>Lugar:</strong> <span th:text="${partido.venue}">Lugar</span></p>
+    <p><strong>Estado:</strong> <span th:text="${partido.estado}">Estado</span></p>
+</div>
+
+<div class="dashboard-card" th:if="${resultado}">
+    <h3>Resultado</h3>
+    <p th:text="|${resultado.golesLocal} - ${resultado.golesVisitante}|">Goles</p>
+</div>
+
+<div class="dashboard-card">
+    <h3>Estadísticas de Jugadores</h3>
+    <table class="table">
+        <thead><tr><th>Jugador</th><th>Goles</th><th>Asistencias</th></tr></thead>
+        <tbody>
+            <tr th:if="${estadisticas.empty}">
+                <td colspan="3">No hay estadísticas registradas para este partido.</td>
+            </tr>
+            <tr th:each="stat : ${estadisticas}">
+                <!-- NOTA: Aquí faltaría obtener el nombre del jugador -->
+                <td th:text="${stat.jugadorId}">ID Jugador</td>
+                <td th:text="${stat.goles}">0</td>
+                <td th:text="${stat.asistencias}">0</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:insert="~{fragments/footer :: footer}"></div>
+</body>
+</html>

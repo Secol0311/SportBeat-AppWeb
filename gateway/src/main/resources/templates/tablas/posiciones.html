@@ -1,0 +1,51 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/header :: head}"></head>
+<body>
+<div th:insert="~{fragments/header :: header}"></div>
+
+<h1 th:text="${titulo}">Tabla de Posiciones</h1>
+
+<div class="alert alert-info">
+    <strong>Nota Importante:</strong> La tabla de posiciones requiere un cálculo que agrega datos de partidos y resultados.
+    Idealmente, esto se manejaría con un endpoint dedicado en el gateway que calcule los puntos.
+    Por ahora, esta es una estructura de ejemplo.
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Posición</th>
+            <th>Equipo</th>
+            <th>Puntos</th>
+            <th>PJ</th> <!-- Partidos Jugados -->
+            <th>PG</th> <!-- Partidos Ganados -->
+            <th>PE</th> <!-- Partidos Empatados -->
+            <th>PP</th> <!-- Partidos Perdidos -->
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Los datos aquí vendrían de un nuevo endpoint en el DashboardService -->
+        <tr>
+            <td>1</td>
+            <td>Equipo A</td>
+            <td>9</td>
+            <td>3</td>
+            <td>3</td>
+            <td>0</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Equipo B</td>
+            <td>6</td>
+            <td>3</td>
+            <td>2</td>
+            <td>0</td>
+            <td>1</td>
+        </tr>
+    </tbody>
+</table>
+
+<div th:insert="~{fragments/footer :: footer}"></div>
+</body>
+</html>

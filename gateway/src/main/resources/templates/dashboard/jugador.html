@@ -1,0 +1,53 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/header :: head}"></head>
+<body>
+<div th:insert="~{fragments/header :: header}"></div>
+
+<h1 th:text="${titulo}">Mi Panel de Jugador</h1>
+
+<!-- Datos del Jugador -->
+<div class="dashboard-card" th:if="${jugador}">
+    <h3>Mis Datos</h3>
+    <p><strong>Nombre:</strong> <span th:text="|${jugador.firstName} ${jugador.lastName}|">Nombre Jugador</span></p>
+    <p><strong>Equipo:</strong> <span th:text="${jugador.teamId}">ID del Equipo</span></p>
+</div>
+
+<!-- Próximos Partidos -->
+<div class="dashboard-card">
+    <h3>Mis Próximos Partidos</h3>
+    <table class="table">
+        <thead><tr><th>Fecha</th><th>Rival</th><th>Lugar</th></tr></thead>
+        <tbody>
+            <tr th:if="${proximosPartidos.empty}">
+                <td colspan="3">No tienes próximos partidos.</td>
+            </tr>
+            <tr th:each="partido : ${proximosPartidos}">
+                <td th:text="${partido.fecha}">Fecha</td>
+                <td th:text="${partido.equipoVisitanteId}">Rival</td>
+                <td th:text="${partido.venue}">Lugar</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Estadísticas -->
+<div class="dashboard-card">
+    <h3>Mis Estadísticas</h3>
+    <table class="table">
+        <thead><tr><th>Goles</th><th>Asistencias</th><th>Tarjetas Amarillas</th></tr></thead>
+        <tbody>
+            <tr th:if="${estadisticas.empty}">
+                <td colspan="3">No tienes estadísticas registradas aún.</td>
+            </tr>
+            <tr th:each="stat : ${estadisticas}">
+                <td th:text="${stat.goles}">0</td>
+                <td th:text="${stat.asistencias}">0</td>
+                <td th:text="${stat.tarjetasAmarillas}">0</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:insert="~{fragments/footer :: footer}"></div>
+</body>
+</html>

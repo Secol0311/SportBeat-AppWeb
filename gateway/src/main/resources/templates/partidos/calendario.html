@@ -1,0 +1,38 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/header :: head}"></head>
+<body>
+<div th:insert="~{fragments/header :: header}"></div>
+
+<h1 th:text="${titulo}">Calendario de Partidos</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Fecha y Hora</th>
+            <th>Equipo Local</th>
+            <th>Equipo Visitante</th>
+            <th>Lugar</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:if="${partidos.empty}">
+            <td colspan="6">No hay partidos programados para esta liga.</td>
+        </tr>
+        <tr th:each="partido : ${partidos}">
+            <td th:text="|${partido.fecha} ${partido.hora}|">Fecha y Hora</td>
+            <td th:text="${partido.equipoLocalId}">Equipo Local</td>
+            <td th:text="${partido.equipoVisitanteId}">Equipo Visitante</td>
+            <td th:text="${partido.venue}">Lugar</td>
+            <td th:text="${partido.estado}">Estado</td>
+            <td>
+                <a th:href="@{'/partidos/detalle/' + ${partido.id}}">Ver Detalle</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div th:insert="~{fragments/footer :: footer}"></div>
+</body>
+</html>

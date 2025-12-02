@@ -1,0 +1,38 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="|${titulo} - SportBeat|">Registro</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="dashboard-card" style="max-width: 500px; margin: 50px auto;">
+            <h2 class="text-center">Registrar Nuevo Jugador</h2>
+            <form th:action="@{/register/jugador}" method="post" th:object="${usuario}">
+                <div class="form-group">
+                    <label for="username">Nombre de Usuario:</label>
+                    <input type="text" th:field="*{username}" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Contraseña:</label>
+                    <input type="password" th:field="*{password}" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" th:field="*{email}" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="firstName">Nombre:</label>
+                    <input type="text" th:field="*{firstName}" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Apellido:</label>
+                    <input type="text" th:field="*{lastName}" class="form-control" required>
+                </div>
+                <input type="hidden" th:field="*{role}" value="PLAYER"> <!-- Campo oculto para el rol -->
+            <button type="submit" class="btn">Registrarse como Jugador</button>
+            </form>
+             <p class="text-center mt-20">¿Eres entrenador? <a href="/register/entrenador">Regístrate aquí</a>.</p>
+        </div>
+    </div>
+</body>
+</html>

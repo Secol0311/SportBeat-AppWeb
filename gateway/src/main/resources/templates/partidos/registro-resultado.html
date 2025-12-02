@@ -1,0 +1,38 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/header :: head}"></head>
+<body>
+<div th:insert="~{fragments/header :: header}"></div>
+
+<h1 th:text="${titulo}">Registrar Resultado del Partido</h1>
+
+<div class="dashboard-card">
+    <h3>Partido: <span th:text="|${partido.equipoLocalId} vs. ${partido.equipoVisitanteId}|">Equipos</span></h3>
+    <p><strong>Fecha:</strong> <span th:text="${partido.fecha}">Fecha</span></p>
+</div>
+
+<form th:action="@{'/partidos/' + ${partido.id} + '/resultado'}" method="post">
+    <div class="dashboard-card">
+        <h3>Resultado Final</h3>
+        <div class="form-group">
+            <label for="golesLocal">Goles Equipo Local:</label>
+            <input type="number" id="golesLocal" name="golesLocal" class="form-control" value="0" required>
+        </div>
+        <div class="form-group">
+            <label for="golesVisitante">Goles Equipo Visitante:</label>
+            <input type="number" id="golesVisitante" name="golesVisitante" class="form-control" value="0" required>
+        </div>
+    </div>
+
+    <!-- Opcional: Sección para estadísticas de jugadores -->
+    <!-- Esto requeriría un formulario más complejo con JavaScript para añadir/eliminar filas -->
+    <div class="dashboard-card">
+        <h3>Estadísticas de Jugadores (Opcional)</h3>
+        <p>Esta funcionalidad se puede implementar más adelante.</p>
+    </div>
+
+    <button type="submit" class="btn">Registrar Resultado</button>
+</form>
+
+<div th:insert="~{fragments/footer :: footer}"></div>
+</body>
+</html>

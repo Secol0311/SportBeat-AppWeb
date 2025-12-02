@@ -1,0 +1,340 @@
+
+    body {
+        background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url('https://images.unsplash.com/photo-1698844013403-b7c4cf0d3b2f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzb2NjZXIlMjBmb290YmFsbCUyMHN0YWRpdW0lMjBiYWNrZ3JvdW5kfGVufDF8fHx8MTc1Nzk1NjExNXww&ixlib=rb-4.1.0&q=80&w=1080');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+      font-family: 'Poppins', sans-serif;
+      
+      color: #fff;
+    }
+
+    /* Header */
+    nav.navbar {
+      background-color: #000;
+      padding: 1rem 1rem;
+    }
+
+    nav a.nav-link {
+      color: #fff !important;
+      margin: 0 0.6rem;
+      font-weight: 500;
+    }
+
+    nav a.nav-link:hover {
+      color: #0d6efd !important;
+    }
+
+    .btn-login {
+      background-color: #333;
+      color: #fff;
+    }
+
+    .btn-login:hover {
+      background-color: #444;
+    }
+
+    /* Hero Section */
+      .hero {
+    background: url('banner.png') center center / cover no-repeat;
+    text-align: center;
+    padding: 6rem 2rem;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #fff;
+  }
+
+  /* Título con degradado */
+  .hero h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(to right, #7dd3fc, #c084fc); /* azul → púrpura */
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Párrafo descriptivo */
+  .hero p {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.85);
+    margin: 0 auto 2rem;
+    max-width: 800px;
+  }
+
+  /* Botones estilizados */
+  .hero .btn-primary {
+    background-color: #2563eb;
+    border: none;
+    padding: 0.9rem 2rem;
+    font-size: 1.1rem;
+    border-radius: 0.6rem;
+    transition: all 0.3s ease;
+  }
+
+  .hero .btn-primary:hover {
+    background-color: #1e40af;
+  }
+
+  .hero .btn-outline-light {
+    backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    padding: 0.9rem 2rem;
+    font-size: 1.1rem;
+    border-radius: 0.6rem;
+    transition: all 0.3s ease;
+  }
+
+  .hero .btn-outline-light:hover {
+    background: rgba(255, 255, 255, 0.25);
+  }
+
+  @media (max-width: 768px) {
+    .hero h1 {
+      font-size: 2.3rem;
+    }
+    .hero p {
+      font-size: 1rem;
+    }
+  }
+    /* Características */
+   .features {
+  padding: 5rem 2rem;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  text-align: center;
+  color: #fff;
+}
+
+.feature-box {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 2rem 1.5rem;
+  transition: all 0.3s ease;
+  color: #e5e5e5;
+}
+
+.feature-box:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-6px);
+}
+
+.feature-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  font-size: 1.8rem;
+  color: #fff;
+}
+
+.bg-blue   { background-color: #3b82f6; }
+.bg-green  { background-color: #22c55e; }
+.bg-purple { background-color: #a855f7; }
+.bg-orange { background-color: #f97316; }
+
+    /* Deportes */
+   /* Fondo general */
+.sports {
+  padding: 5rem 2rem;
+  text-align: center;
+  background: url('img/fondo-deportes.jpg') center center/cover no-repeat;
+  position: relative;
+  overflow: hidden;
+}
+
+.sports::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 10, 10, 0.8); /* Oscurecido */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.sports-content {
+  position: relative;
+  z-index: 2;
+  color: #fff;
+}
+
+/* Tarjetas */
+.sport-card {
+  border-radius: 15px;
+  padding: 2rem;
+  color: #fff;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Gradientes similares a Tailwind */
+.sport-futbol {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.25), rgba(21, 128, 61, 0.25));
+}
+.sport-basquet {
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.25), rgba(194, 65, 12, 0.25));
+}
+.sport-voleibol {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.25), rgba(29, 78, 216, 0.25));
+}
+
+/* Hover más claro */
+.sport-card:hover {
+  transform: translateY(-6px);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Emoji grande */
+.sport-icon {
+  font-size: 4rem;
+  line-height: 1;
+}
+
+/* Título */
+.sports h2 {
+  font-size: 2.5rem;
+  letter-spacing: 1px;
+}
+
+    /* Comunidad */
+   .register-section {
+  background: url('img/fondo-registro.jpg') center center/cover no-repeat;
+  padding: 4rem 2rem;
+}
+
+/* Cards blancas */
+.register-section {
+  background: url('img/fondo-registro.jpg') center center/cover no-repeat;
+  padding: 4rem 2rem;
+}
+
+/* Cards blancas con altura igual */
+.register-card {
+  background: #fff;
+  border-radius: 15px;
+  color: #333;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  min-height: 100%;
+}
+
+.register-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Botón naranja */
+.btn-register {
+  background-color: #f26722;
+  color: #fff;
+  border-radius: 25px;
+  padding: 0.6rem 2rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.btn-register:hover {
+  background-color: #d85b1f;
+  color: #fff;
+}
+    /* CTA Final */
+     .cta {
+    background: linear-gradient(to right, rgba(37, 99, 235, 0.3), rgba(147, 51, 234, 0.3));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 6rem 2rem;
+    text-align: center;
+    color: #fff;
+  }
+
+  .cta h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+  }
+
+  .cta p {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 2.5rem;
+  }
+
+  /* Botones */
+  .cta .btn-primary {
+    background-color: #2563eb;
+    border: none;
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    border-radius: 0.8rem;
+    transition: all 0.3s ease;
+  }
+
+  .cta .btn-primary:hover {
+    background-color: #1e40af;
+  }
+
+  .cta .btn-outline-light {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: #fff;
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    border-radius: 0.8rem;
+    transition: all 0.3s ease;
+  }
+
+  .cta .btn-outline-light:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  @media (max-width: 768px) {
+    .cta h2 {
+      font-size: 2rem;
+    }
+    .cta p {
+      font-size: 1rem;
+    }
+  }
+
+    /* Footer */
+    footer {
+      background-color: #1c1c1c;
+      color: #ddd;
+      padding: 3rem 0;
+      font-size: 0.9rem;
+    }
+
+    footer h6 {
+      color: #fff;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    footer a {
+      color: #ccc;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: #fff;
+      text-decoration: underline;
+    }
+
+    .social-icons a {
+      color: #fff;
+      font-size: 1.5rem;
+      margin-right: 0.5rem;
+    }

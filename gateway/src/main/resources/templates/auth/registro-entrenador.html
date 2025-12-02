@@ -1,0 +1,16 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/header :: head}"></head>
+<body>
+<div class="container">
+    <div class="dashboard-card" style="max-width: 500px; margin: 50px auto;">
+        <h2 class="text-center">Registrar Nuevo Entrenador</h2>
+        <form th:action="@{/register/entrenador}" method="post" th:object="${usuario}">
+            <!-- ... (mismos campos que el de jugador) ... -->
+            <input type="hidden" th:field="*{role}" value="COACH"> <!-- Campo oculto para el rol -->
+            <button type="submit" class="btn">Registrarse como Entrenador</button>
+        </form>
+        <p class="text-center mt-20">¿Eres un jugador? <a href="/register/jugador">Regístrate aquí</a>.</p>
+    </div>
+</div>
+</body>
+</html>

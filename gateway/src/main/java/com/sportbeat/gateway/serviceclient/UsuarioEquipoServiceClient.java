@@ -1,9 +1,6 @@
 package com.sportbeat.gateway.serviceclient;
 
-import com.sportbeat.gateway.dto.EquipoDTO;
-import com.sportbeat.gateway.dto.JugadorDTO;
-import com.sportbeat.gateway.dto.LigaDTO;
-import com.sportbeat.gateway.dto.UsuarioDTO;
+import com.sportbeat.gateway.dto.*;
 
 import java.util.UUID;
 
@@ -57,6 +54,58 @@ public class UsuarioEquipoServiceClient {
                 .bodyToMono(Long.class);
     }
 
+    // **FALTANTE → crear usuario**
+    public Mono<UsuarioDTO> crearUsuario(CrearUsuarioRequest request) {
+        return webClient.post()
+                .uri(baseUrl + "/api/usuarios")
+                .bodyValue(request)
+                .retrieve()
+                .bodyToMono(UsuarioDTO.class);
+    }
+
+    // ============================
+    // LIGAS
+    // ============================
+
+    public Flux<LigaDTO> findAllLigas() {
+        return webClient.get()
+                .uri(baseUrl + "/api/ligas")
+                .retrieve()
+                .bodyToFlux(LigaDTO.class);
+    }
+
+    public Mono<Long> countLigas() {
+        return webClient.get()
+                .uri(baseUrl + "/api/ligas/count")
+                .retrieve()
+                .bodyToMono(Long.class);
+    }
+
+    // **FALTANTE → crear liga**
+    public Mono<LigaDTO> crearLiga(CrearLigaRequest request) {
+        return webClient.post()
+                .uri(baseUrl + "/api/ligas")
+                .bodyValue(request)
+                .retrieve()
+                .bodyToMono(LigaDTO.class);
+    }
+
+    // **FALTANTE → obtener liga por ID**
+    public Mono<LigaDTO> findLigaById(UUID id) {
+        return webClient.get()
+                .uri(baseUrl + "/api/ligas/" + id)
+                .retrieve()
+                .bodyToMono(LigaDTO.class);
+    }
+
+    // **FALTANTE → eliminar liga**
+    public Mono<Void> eliminarLiga(UUID id) {
+        return webClient.delete()
+                .uri(baseUrl + "/api/ligas/" + id)
+                .retrieve()
+                .bodyToMono(Void.class);
+    }
+
     // ============================
     // EQUIPOS
     // ============================
@@ -87,24 +136,6 @@ public class UsuarioEquipoServiceClient {
                 .uri(baseUrl + "/api/equipos/coach/" + coachId)
                 .retrieve()
                 .bodyToFlux(EquipoDTO.class);
-    }
-
-    // ============================
-    // LIGAS
-    // ============================
-
-    public Mono<Long> countLigas() {
-        return webClient.get()
-                .uri(baseUrl + "/api/ligas/count")
-                .retrieve()
-                .bodyToMono(Long.class);
-    }
-
-    public Flux<LigaDTO> findAllLigas() {
-        return webClient.get()
-                .uri(baseUrl + "/api/ligas")
-                .retrieve()
-                .bodyToFlux(LigaDTO.class);
     }
 
     // ============================

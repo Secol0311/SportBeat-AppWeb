@@ -1,0 +1,57 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/header :: head}"></head>
+<body>
+<div th:insert="~{fragments/header :: header}"></div>
+
+<h1 th:text="${titulo}">Panel Administrativo</h1>
+
+<div class="dashboard-cards">
+    <div class="dashboard-card">
+        <h3>Total de Usuarios</h3>
+        <p th:text="${totalUsuarios}">0</p>
+    </div>
+    <div class="dashboard-card">
+        <h3>Total de Equipos</h3>
+        <p th:text="${totalEquipos}">0</p>
+    </div>
+    <div class="dashboard-card">
+        <h3>Total de Ligas</h3>
+        <p th:text="${totalLigas}">0</p>
+    </div>
+</div>
+
+<div class="dashboard-card">
+    <h3>Próximos Partidos</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Local vs. Visitante</th>
+                <th>Lugar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:if="${proximosPartidos.empty}">
+                <td colspan="3">No hay próximos partidos programados.</td>
+            </tr>
+            <tr th:each="partido : ${proximosPartidos}">
+                <td th:text="${partido.fecha}">Fecha</td>
+                <!-- NOTA: Idealmente, aquí deberías mostrar los nombres de los equipos, no sus IDs.
+                     Esto requeriría otra llamada al equipo-jugador-service desde el DashboardService. -->
+                <td th:text="|${partido.equipoLocalId} vs. ${partido.equipoVisitanteId}|">Equipos</td>
+                <td th:text="${partido.venue}">Lugar</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- En templates/dashboard/administrador.html, añade esta sección -->
+<div class="dashboard-card">
+    <h3>Acciones Rápidas</h3>
+    <a href="/ligas/nueva" class="btn">Crear Nueva Liga</a>
+    <!-- Puedes añadir más enlaces aquí, como "Gestionar Equipos" -->
+</div>
+
+<div th:insert="~{fragments/footer :: footer}"></div>
+</body>
+</html>

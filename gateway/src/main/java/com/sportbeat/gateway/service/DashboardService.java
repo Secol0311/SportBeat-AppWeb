@@ -24,6 +24,9 @@ public class DashboardService {
     @Autowired
     private ResultadoServiceClient resultadoClient;
 
+    @Autowired
+    private PartidoServiceClient partidoServiceClient;
+
     // -------------------------------------------------------------
     // ADMIN
     // -------------------------------------------------------------
@@ -86,4 +89,9 @@ public class DashboardService {
                 .doOnNext(lista -> data.put("estadisticas", lista))
                 .then(Mono.just(data));
     }
+
+    public Mono<PartidoDTO> getPartidoById(UUID partidoId) {
+    return partidoServiceClient.findPartidoById(partidoId);
+}
+
 }

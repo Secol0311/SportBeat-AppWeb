@@ -2,6 +2,13 @@ package com.sportbeat.gateway.controller;
 
 import com.sportbeat.gateway.dto.PartidoDTO;
 import com.sportbeat.gateway.service.PartidoService;
+import com.sportbeat.gateway.service.ResultadoService;
+import com.sportbeat.gateway.dto.CrearResultadoRequest;
+import com.sportbeat.gateway.dto.ResultadoDTO;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 
 import java.util.UUID;
 
@@ -15,8 +22,33 @@ import reactor.core.publisher.Mono;
 @Controller
 public class PartidoController {
 
+
+
     @Autowired
     private PartidoService partidoService;
+    @Autowired
+    private ResultadoService resultadoService;
+
+    @GetMapping("/partidos/{id}/registrar-resultado")
+    public String mostrarFormularioResultado(@PathVariable UUID id, Model model) {
+        Mono<PartidoDTO> partidoMono = partidoService.getDetallePartido(id);
+        PartidoDTO partido = partidoMono.block();
+        if (partido != null) {
+            model.addAttribute("partido", partido);
+            model.addAttribute("resultado", new ResultadoDTO());
+            model.addAttribute("titulo", "Registrar Resultado del Partido");
+            return "partidos/registrar-resultado";
+        }
+        return "redirect:/partidos/calendario";
+    }
+
+    @PostMapping("/partidos/{id}/registrar-resultado")
+    public String registrarResultado(@PathVariable UUID id, @ModelAttribute CrearResultadoRequest request) {
+        request.setPartidoId(id);
+        resultadoService.crearResultado(request);
+        
+        return "redirect:/partidos/detalle/" + id;
+    }
 
     @GetMapping("/partidos/calendario")
     public String calendarioPartidosPage(Model model) {

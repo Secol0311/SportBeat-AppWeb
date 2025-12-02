@@ -22,14 +22,25 @@ public class SecurityConfig {
         return http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(ex -> ex
-                        .pathMatchers("/login", "/register", "/css/**", "/js/**", "/images/**").permitAll()
+
+                        // PÚBLICO
+                        .pathMatchers("/", "/login", "/register/**",
+                                "/css/**", "/js/**", "/images/**").permitAll()
+
+                        // API DE AUTORIZACIÓN PÚBLICA
                         .pathMatchers("/api/auth/**").permitAll()
+
+                        // ROLES
                         .pathMatchers("/dashboard/administrador/**").hasRole("ADMINISTRADOR")
                         .pathMatchers("/dashboard/entrenador/**").hasRole("ENTRENADOR")
                         .pathMatchers("/dashboard/jugador/**").hasRole("JUGADOR")
+
+                        // TODO LO DEMÁS REQUIERE AUTENTICACIÓN
                         .anyExchange().authenticated()
                 )
                 .addFilterAt(jwtFilter, SecurityWebFiltersOrder.AUTHENTICATION)
+                .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
+                .formLogin(ServerHttpSecurity.FormLoginSpec::disable)
                 .build();
     }
 }

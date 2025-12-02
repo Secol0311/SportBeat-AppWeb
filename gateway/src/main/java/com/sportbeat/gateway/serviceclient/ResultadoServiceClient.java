@@ -22,6 +22,14 @@ public class ResultadoServiceClient {
         this.resultadoServiceUrl = resultadoServiceUrl;
     }
 
+    public Mono<ResultadoDTO> crearResultado(com.sportbeat.gateway.dto.CrearResultadoRequest request) {
+        return this.webClient.post()
+                .uri(resultadoServiceUrl + "/api/resultados")
+                .bodyValue(request)
+                .retrieve()
+                .bodyToMono(ResultadoDTO.class);
+    }
+
     public Mono<ResultadoDTO> obtenerResultadoPorPartidoId(UUID partidoId) {
         return this.webClient.get()
                 .uri(resultadoServiceUrl + "/api/resultados/partido/{partidoId}", partidoId)

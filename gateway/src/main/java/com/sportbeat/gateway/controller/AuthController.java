@@ -1,6 +1,11 @@
 package com.sportbeat.gateway.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import com.sportbeat.gateway.dto.UsuarioRequest;
+import com.sportbeat.gateway.dto.CrearUsuarioRequest;
+import com.sportbeat.gateway.dto.LigaDTO;
+import com.sportbeat.gateway.serviceclient.UsuarioEquipoServiceClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +20,40 @@ import java.util.Map;
 @Controller
 public class AuthController {
 
+    @Autowired private UsuarioEquipoServiceClient usuarioEquipoServiceClient;
+    
+
     @Autowired
     private WebClient.Builder webClientBuilder;
+
+
+ @GetMapping("/register/jugador")
+public String mostrarRegistroJugador(Model model) {
+    model.addAttribute("usuario", new CrearUsuarioRequest());
+    model.addAttribute("titulo", "Registro de Jugador");
+    return "auth/registro-jugador";
+}
+
+@GetMapping("/register/entrenador")
+public String mostrarRegistroEntrenador(Model model) {
+    model.addAttribute("usuario", new CrearUsuarioRequest());
+    model.addAttribute("titulo", "Registro de Entrenador");
+    return "auth/registro-entrenador";
+}
+
+  @PostMapping("/register")
+public String procesarRegistro(@ModelAttribute CrearUsuarioRequest request, Model model) {
+    try {
+        usuarioEquipoServiceClient.crearUsuario(request);
+        return "redirect:/login?registered=true";
+    } catch (Exception e) {
+        model.addAttribute("error", "No se pudo registrar el usuario. El usuario o el Email podrian estar en uso");
+        model.addAttribute("usuario", request);
+        return "COACH".equals(request.getRole())
+                ? "auth/registro-entrenador"
+                : "auth/registro-jugador";
+    }
+}
 
     @GetMapping("/login")
     public String loginPage() {
