@@ -1,7 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:insert="~{fragments/header :: head}"></head>
+<head></head>
 <body>
-<div th:insert="~{fragments/header :: header}"></div>
+<div th:insert="~{fragments/header :: siteHeader}"></div>
 
 <h1 th:text="${titulo}">Panel de Entrenador</h1>
 
@@ -46,6 +46,6 @@
     </table>
 </div>
 
-<div th:insert="~{fragments/footer :: footer}"></div>
+<div th:insert="~{fragments/footer :: siteFooter}"></div>
 </body>
 </html>

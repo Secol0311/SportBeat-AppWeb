@@ -13,51 +13,29 @@
     <description>API Gateway, Frontend y Autenticación</description>
 
     <dependencies>
-        <!-- 1. Core del Gateway para enrutar peticiones -->
+        <!-- 1. Core del Gateway (ya incluye WebFlux) -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
 
-<dependency>
-    <groupId>org.thymeleaf.extras</groupId>
-    <artifactId>thymeleaf-extras-springsecurity6</artifactId>    
-</dependency>
-
-
-
-        <!-- 2. Para que los controladores puedan devolver nombres de vistas (Thymeleaf) -->
+        <!-- 2. Motor de plantillas Thymeleaf (compatible con WebFlux) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
-        <!-- 3. Para llamar a otros microservicios de forma reactiva (WebClient) -->
+        <!-- 3. Integración de Spring Security con Thymeleaf (¡La clave!) -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-webflux</artifactId>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-springsecurity6</artifactId>
         </dependency>
-                    
-        <dependency>
-    <groupId>io.projectreactor</groupId>
-    <artifactId>reactor-test</artifactId>
-    <scope>test</scope>
-</dependency>
-
-<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-test</artifactId>
-    <scope>test</scope>
-</dependency>
-
-        
 
         <!-- 4. Seguridad de Spring -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-
 
         <!-- 5. Librería para manejar Tokens JWT -->
         <dependency>
@@ -83,6 +61,18 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
+        </dependency>
+
+        <!-- Dependencias de prueba (no afectan el runtime) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

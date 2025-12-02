@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>SPORTBEAT - ¿Quiénes somos?</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+   <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+
+  <!-- header fragment -->
+  <div th:replace="fragments/header :: siteHeader"></div>
+
+<body>
+
+    <!-- HERO -->
+    <section class="hero">
+        <h1>¿Quiénes somos?</h1>
+        <p>
+            Somos el equipo detrás de <strong>SPORTBEAT</strong>, una plataforma creada para revolucionar
+            la gestión de ligas deportivas locales en el Perú.
+        </p>
+        <p>
+            Combinamos tecnología moderna con pasión por el deporte para ofrecer una experiencia digital
+            intuitiva, ordenada y accesible.
+        </p>
+    </section>
+
+    <div class="container">
+
+        <!-- EQUIPO -->
+        <section>
+            <h2 class="section-title">Nuestro equipo</h2>
+            <p class="section-subtitle">
+                Estudiantes de ingeniería de software comprometidos con crear soluciones tecnológicas
+                que impacten positivamente en nuestra comunidad.
+            </p>
+
+            <div class="cards">
+                
+                <div class="card">
+                    <span class="pill">Misión</span>
+                    <h3>Digitalizar las ligas deportivas locales</h3>
+                    <p>
+                        Eliminar procesos manuales y reemplazarlos por una plataforma centralizada donde
+                        se puedan gestionar ligas, equipos, partidos y resultados en tiempo real.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <span class="pill">Visión</span>
+                    <h3>Ser la plataforma de referencia en el país</h3>
+                    <p>
+                        Queremos que SPORTBEAT sea la herramienta principal para la gestión deportiva a nivel distrital,
+                        promoviendo organización, transparencia y profesionalismo.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <span class="pill">Valores</span>
+                    <h3>Trabajo en equipo y calidad</h3>
+                    <p>
+                        Creemos en la responsabilidad, la colaboración, el código limpio y una experiencia de usuario
+                        impecable como pilares fundamentales de nuestro trabajo.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SOLUCIÓN -->
+        <section>
+            <h2 class="section-title">¿Qué es SPORTBEAT?</h2>
+            <p class="section-subtitle">
+                Una plataforma moderna para gestionar ligas, equipos, jugadores, partidos
+                y resultados con transparencia y facilidad.
+            </p>
+
+            <div class="cards">
+                
+                <div class="card">
+                    <h3>Funcionalidades principales</h3>
+                    <ul class="impact-list">
+                        <li>Registro de jugadores y equipos</li>
+                        <li>Calendario de partidos</li>
+                        <li>Registro de resultados</li>
+                        <li>Tabla de posiciones</li>
+                        <li>Estadísticas por jugador</li>
+                        <li>Reportes y notificaciones</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>Impacto esperado</h3>
+                    <ul class="impact-list">
+                        <li>Menos confusión en horarios</li>
+                        <li>Mayor transparencia en los datos</li>
+                        <li>Mejor comunicación entre equipos</li>
+                        <li>Acceso rápido a información clave</li>
+                        <li>Una experiencia más profesional y organizada</li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+        <p class="footer-msg">
+            <strong>SPORTBEAT</strong> — Tecnología y deporte trabajando juntos para transformar la gestión deportiva local.
+        </p>
+
+    </div>
+  <!-- footer fragment -->
+  <div th:replace="fragments/footer :: siteFooter"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

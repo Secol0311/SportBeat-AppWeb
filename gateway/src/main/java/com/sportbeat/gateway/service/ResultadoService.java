@@ -18,13 +18,11 @@ public class ResultadoService {
     @Autowired
     private ResultadoServiceClient resultadoServiceClient;
 
-    public ResultadoDTO crearResultado(CrearResultadoRequest request) {
-        // Nos aseguramos de que el partidoId esté correctamente asignado
-        // si no lo viene en el request (ej. al seleccionar de un dropdown).
-        return resultadoServiceClient.crearResultado(request).block();
+    public Mono<ResultadoDTO> crearResultado(CrearResultadoRequest request) {
+        return resultadoServiceClient.crearResultado(request);
     }
 
-    public ResultadoDTO obtenerResultadoPorPartidoId(UUID partidoId) {
-        return resultadoServiceClient.obtenerResultadoPorPartidoId(partidoId).block();
+    public Mono<ResultadoDTO> obtenerResultadoPorPartidoId(UUID partidoId) {
+        return resultadoServiceClient.obtenerResultadoPorPartidoId(partidoId);
     }
 }

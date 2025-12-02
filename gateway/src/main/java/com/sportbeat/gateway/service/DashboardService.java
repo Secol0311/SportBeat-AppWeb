@@ -30,20 +30,21 @@ public class DashboardService {
     // -------------------------------------------------------------
     // ADMIN
     // -------------------------------------------------------------
-    public Mono<Map<String, Object>> getAdminDashboardData() {
+     public Mono<Map<String, Object>> getAdminDashboardData() {
+        // Los clientes ya devuelven Mono/Flux, así que solo los juntamos
+        Mono<List<LigaDTO>> ligasMono = usuarioEquipoClient.findAllLigas().collectList();
+        Mono<List<EquipoDTO>> equiposMono = usuarioEquipoClient.findAllEquipos().collectList();
+        Mono<List<PartidoDTO>> partidosMono = partidoClient.findTodosPartidos().collectList();
 
-        Map<String, Object> data = new HashMap<>();
-
-        return usuarioEquipoClient.countUsuarios()
-                .doOnNext(total -> data.put("totalUsuarios", total))
-                .then(usuarioEquipoClient.countEquipos())
-                .doOnNext(total -> data.put("totalEquipos", total))
-                .then(usuarioEquipoClient.countLigas())
-                .doOnNext(total -> data.put("totalLigas", total))
-                .thenMany(partidoClient.findProximosPartidos())
-                .collectList()
-                .doOnNext(lista -> data.put("proximosPartidos", lista))
-                .then(Mono.just(data));
+        return Mono.zip(ligasMono, equiposMono, partidosMono)
+                .map(tuple -> {
+                    Map<String, Object> data = new HashMap<>();
+                    data.put("ligas", tuple.getT1());
+                    data.put("equipos", tuple.getT2());
+                    data.put("partidos", tuple.getT3());
+                    // ... resto del código para añadir objetos vacíos ...
+                    return data;
+                });
     }
 
     // -------------------------------------------------------------

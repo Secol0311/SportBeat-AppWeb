@@ -2,6 +2,7 @@ package com.sportbeat.gateway.service;
 
 import com.sportbeat.gateway.dto.PartidoDTO;
 import com.sportbeat.gateway.serviceclient.PartidoServiceClient;
+import com.sportbeat.gateway.dto.CrearPartidoRequest;
 
 import java.util.UUID;
 
@@ -23,5 +24,15 @@ public class PartidoService {
 
     public Mono<PartidoDTO> getDetallePartido(UUID id) {
         return partidoServiceClient.findPartidoById(id);
+    }
+
+    public Mono<Void> crearPartido(CrearPartidoRequest request) {
+        return partidoServiceClient.crearPartido(request)
+                .then(); // convertimos a Mono<Void>
+    }
+
+    public Mono<Void> eliminarPartido(UUID id) {
+        return partidoServiceClient.eliminarPartido(id)
+                .then(); // convertimos a Mono<Void>
     }
 }

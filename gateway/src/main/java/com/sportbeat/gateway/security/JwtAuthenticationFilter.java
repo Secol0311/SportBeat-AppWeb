@@ -15,76 +15,65 @@ import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
-
 @Component
 public class JwtAuthenticationFilter implements WebFilter {
 
     @Autowired
     private JwtUtil jwtUtil;
 
-    // Usamos AntPathMatcher para manejar patrones de URL como "/css/**"
     private final AntPathMatcher pathMatcher = new AntPathMatcher();
 
     // Lista de rutas públicas que no requieren autenticación
     private static final List<String> PUBLIC_PATHS = List.of(
-            "/", "/login", "/register-jugador", "/register-entrenador", "/contacto",
+            "/", "/login", "/register-jugador", "/register-entrenador", "/contacto", "/quienes-somos", "/deportes",
             "/css/**", "/js/**", "/images/**", "/favicon.ico",
-            "/api/auth/**", "/ligas", "/equipos", "/partidos/calendario"
+            "/api/auth/**",
+            "/ligas", "/equipos", "/partidos/calendario"
     );
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
-        ServerHttpRequest request = exchange.getRequest();
-        String path = request.getPath().value();
+        String path = exchange.getRequest().getPath().value();
 
-        // 1. VERIFICAR SI LA RUTA ES PÚBLICA
-        // Si la ruta actual coincide con algún patrón de la lista pública, continuamos sin validar el token.
+        // ========================================================================
+        // PASO 1: Si la ruta es PÚBLICA, LIMPIAR el contexto de seguridad.
+        // Esto es CRÍTICO. Asegura que no haya residuos de una sesión anterior.
+        // ========================================================================
         if (isPublicPath(path)) {
-            return chain.filter(exchange);
+            System.out.println("DEBUG: Ruta pública '" + path + "'. Limpiando contexto de seguridad.");
+            return chain.filter(exchange)
+                    .contextWrite(ReactiveSecurityContextHolder.clearContext());
         }
 
-        // 2. OBTENER EL TOKEN JWT DE LA CABECERA
-        String authHeader = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+        // ========================================================================
+        // PASO 2: Si la ruta es PRIVADA, procesar el token.
+        // ========================================================================
+        String authHeader = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
 
-        // Si no hay cabecera o no empieza con "Bearer ", continuamos sin autenticación.
-        // La petición será bloqueada más tarde por la regla .anyExchange().authenticated() en SecurityConfig.
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            System.out.println("DEBUG: Ruta privada '" + path + "' sin token. Continuando sin autenticación.");
             return chain.filter(exchange);
         }
 
         String token = authHeader.substring(7);
 
-        // 3. VALIDAR EL TOKEN
         if (!jwtUtil.validateToken(token)) {
-            // Si el token no es válido, continuamos sin autenticación.
-            // La petición será bloqueada por la configuración de seguridad.
+            System.out.println("DEBUG: Token inválido. Continuando sin autenticación.");
             return chain.filter(exchange);
         }
 
-        // 4. EXTRAER INFORMACIÓN Y CREAR EL CONTEXTO DE SEGURIDAD
         String username = jwtUtil.getUsernameFromToken(token);
         String role = jwtUtil.getClaimsFromToken(token).get("role", String.class);
-
-        // Creamos la lista de autoridades (roles) para Spring Security
         List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + role));
 
-        // Creamos el objeto de autenticación de Spring Security
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                username,
-                null, // Las credenciales (password) no son necesarias ya que el token es válido
-                authorities
-        );
+        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(username, null, authorities);
 
-        // 5. AÑADIR EL CONTEXTO DE SEGURIDAD AL FLUJO REACTIVO
-        // Esto hace que la autenticación esté disponible para los controladores y la configuración de seguridad.
         return chain.filter(exchange)
-                .contextWrite(ReactiveSecurityContextHolder.withAuthentication(authentication));
+                .contextWrite(ReactiveSecurityContextHolder.withAuthentication(auth));
     }
 
     /**
-     * Método de ayuda para verificar si una ruta coincide con la lista de rutas públicas.
-     * @param path La ruta de la petición actual.
-     * @return true si la ruta es pública, false en caso contrario.
+     * Método de ayuda para verificar si una ruta es pública.
      */
     private boolean isPublicPath(String path) {
         return PUBLIC_PATHS.stream().anyMatch(publicPath -> pathMatcher.match(publicPath, path));

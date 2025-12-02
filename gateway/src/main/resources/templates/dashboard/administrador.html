@@ -1,7 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:insert="~{fragments/header :: head}"></head>
+<head></head>
 <body>
-<div th:insert="~{fragments/header :: header}"></div>
+<div th:insert="~{fragments/header :: siteHeader}"></div>
 
 <h1 th:text="${titulo}">Panel Administrativo</h1>
 
@@ -52,6 +52,6 @@
     <!-- Puedes añadir más enlaces aquí, como "Gestionar Equipos" -->
 </div>
 
-<div th:insert="~{fragments/footer :: footer}"></div>
+<div th:insert="~{fragments/footer :: siteFooter}"></div>
 </body>
 </html>

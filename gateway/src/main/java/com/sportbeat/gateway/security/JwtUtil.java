@@ -1,6 +1,7 @@
 package com.sportbeat.gateway.security;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,7 @@ public class JwtUtil {
     @Value("${jwt.expiration}")
     private Long expiration;
 
+    // La clave debe ser de tipo SecretKey para la versión 0.12.x de jjwt
     private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(secret.getBytes());
     }
@@ -35,11 +37,11 @@ public class JwtUtil {
     }
 
     public String getUsernameFromToken(String token) {
-        Claims claims = getClaimsFromToken(token);
-        return claims.getSubject();
+        return getClaimsFromToken(token).getSubject();
     }
 
     public Claims getClaimsFromToken(String token) {
+        // Este método lanza una excepción si el token es inválido o expiró
         return Jwts.parser()
                 .verifyWith(getSigningKey())
                 .build()
@@ -49,9 +51,10 @@ public class JwtUtil {
 
     public boolean validateToken(String token) {
         try {
-            getClaimsFromToken(token);
-            return true;
-        } catch (JwtException | IllegalArgumentException e) {
+            Jwts.parser().verifyWith(getSigningKey()).build().parseSignedClaims(token);
+            return true; // Si no lanza excepción, es válido
+        } catch (Exception e) {
+            // Cualquier excepción (expirado, firma inválida, etc.) lo hace inválido
             return false;
         }
     }

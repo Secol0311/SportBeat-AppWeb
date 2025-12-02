@@ -1,3 +1,4 @@
+// En: gateway/src/main/java/com/sportbeat/gateway/service/LigaService.java
 package com.sportbeat.gateway.service;
 
 import com.sportbeat.gateway.dto.CrearLigaRequest;
@@ -11,33 +12,30 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * Servicio de orquestación en el gateway para las operaciones de ligas.
- * Actúa como un intermediario entre los controladores del gateway y el LigaServiceClient.
- */
 @Service
 public class LigaService {
 
     @Autowired
     private LigaServiceClient ligaServiceClient;
 
-    public List<LigaDTO> findAllLigas() {
-        return ligaServiceClient.findAllLigas().collectList().block();
+    public Mono<List<LigaDTO>> findAllLigas() {
+        // Transformamos el Flux a un Mono<Lista> para que sea más fácil de manejar en el controlador
+        return ligaServiceClient.findAllLigas().collectList();
     }
 
-    public LigaDTO getLigaById(UUID id) {
-        return ligaServiceClient.findLigaById(id).block();
+    public Mono<LigaDTO> getLigaById(UUID id) {
+        return ligaServiceClient.findLigaById(id);
     }
 
-    public LigaDTO crearLiga(CrearLigaRequest request) {
-        return ligaServiceClient.crearLiga(request).block();
+    public Mono<LigaDTO> crearLiga(CrearLigaRequest request) {
+        return ligaServiceClient.crearLiga(request);
     }
 
-    public LigaDTO actualizarLiga(UUID id, CrearLigaRequest request) {
-        return ligaServiceClient.actualizarLiga(id, request).block();
+    public Mono<LigaDTO> actualizarLiga(UUID id, CrearLigaRequest request) {
+        return ligaServiceClient.actualizarLiga(id, request);
     }
 
-    public void eliminarLiga(UUID id) {
-        ligaServiceClient.eliminarLiga(id).block(); // Bloqueamos hasta que la eliminación se complete
+    public Mono<Void> eliminarLiga(UUID id) {
+        return ligaServiceClient.eliminarLiga(id);
     }
 }

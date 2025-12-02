@@ -1,3 +1,4 @@
+// En: gateway/src/main/java/com/sportbeat/gateway/serviceclient/LigaServiceClient.java
 package com.sportbeat.gateway.serviceclient;
 
 import com.sportbeat.gateway.dto.CrearLigaRequest;
@@ -10,10 +11,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
-/**
- * Cliente de servicio para comunicarse con el equipo-jugador-service
- * en todo lo relacionado a las ligas.
- */
 @Service
 public class LigaServiceClient {
 

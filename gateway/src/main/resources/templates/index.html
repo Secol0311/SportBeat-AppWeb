@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+                xmls:sec="http://www.thymeleaf.org/extras/spring-security">
+<head >
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title th:text="${titulo} ?: 'SportBeat - Gestión Deportiva'">SportBeat</title>
@@ -12,10 +13,12 @@
   <!-- Tu CSS consolidado (mover el <style> del HTML original aquí) -->
   <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
+
 <body>
 
   <!-- header fragment -->
-  <div th:replace="fragments/header :: siteHeader"></div>
+ <div th:replace="~{fragments/header :: siteHeader}"></div>
+
 
   <!-- Hero -->
  <section class="hero">
@@ -175,7 +178,7 @@
   </section>
 
   <!-- footer fragment -->
-  <div th:replace="fragments/footer :: siteFooter"></div>
+  <div th:replace="~{fragments/footer :: siteFooter}"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
