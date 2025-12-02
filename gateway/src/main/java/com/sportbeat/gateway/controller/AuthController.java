@@ -27,14 +27,14 @@ public class AuthController {
     private WebClient.Builder webClientBuilder;
 
 
- @GetMapping("/register/jugador")
+ @GetMapping("/register-jugador")
 public String mostrarRegistroJugador(Model model) {
     model.addAttribute("usuario", new CrearUsuarioRequest());
     model.addAttribute("titulo", "Registro de Jugador");
     return "auth/registro-jugador";
 }
 
-@GetMapping("/register/entrenador")
+@GetMapping("/register-entrenador")
 public String mostrarRegistroEntrenador(Model model) {
     model.addAttribute("usuario", new CrearUsuarioRequest());
     model.addAttribute("titulo", "Registro de Entrenador");

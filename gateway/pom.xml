@@ -19,6 +19,13 @@
             <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
 
+<dependency>
+    <groupId>org.thymeleaf.extras</groupId>
+    <artifactId>thymeleaf-extras-springsecurity6</artifactId>    
+</dependency>
+
+
+
         <!-- 2. Para que los controladores puedan devolver nombres de vistas (Thymeleaf) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

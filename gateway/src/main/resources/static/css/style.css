@@ -145,7 +145,7 @@
 .sports {
   padding: 5rem 2rem;
   text-align: center;
-  background: url('img/fondo-deportes.jpg') center center/cover no-repeat;
+  background: url('image/fondo-deportes.jpg') center center/cover no-repeat;
   position: relative;
   overflow: hidden;
 }
@@ -210,13 +210,13 @@
 
     /* Comunidad */
    .register-section {
-  background: url('img/fondo-registro.jpg') center center/cover no-repeat;
+  background: url('images/fondo-registro.jpg') center center/cover no-repeat;
   padding: 4rem 2rem;
 }
 
 /* Cards blancas */
 .register-section {
-  background: url('img/fondo-registro.jpg') center center/cover no-repeat;
+  background: url('images/fondo-registro.jpg') center center/cover no-repeat;
   padding: 4rem 2rem;
 }
 
